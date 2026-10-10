@@ -346,10 +346,10 @@ if __name__ == "__main__":
             # save results
             logging.info(f"\tSaving results to {sorting_output_folder}")
             sorting = sorting.save(folder=sorting_output_folder)
-            if (spikesorted_raw_output_folder / recording_name / "spikeinterface_log.json").is_file():
-                shutil.copy(
-                    spikesorted_raw_output_folder / recording_name / "spikeinterface_log.json", sorting_output_folder
-                )
+            # motion.pkl is DARTsort's own estimate when no preprocessing motion was passed
+            for kept_file in ("spikeinterface_log.json", "motion.pkl"):
+                if (spikesorted_raw_output_folder / recording_name / kept_file).is_file():
+                    shutil.copy(spikesorted_raw_output_folder / recording_name / kept_file, sorting_output_folder)
 
             # safe delete the output folder
             try:
